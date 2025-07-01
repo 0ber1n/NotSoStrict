@@ -14,7 +14,7 @@ chmod +x NotSoStrict.py Bettercap_Launch.sh
 ```
 2. Launch the NotSoStrict.py elevated.
 ```
-sudo ./NotSoStrict.git
+sudo ./NotSoStrict.py
 ```
 3. You will notice a Chromium browser will open up as well as a second terminal that launches the Bettercap portion.
 4. In the Betteracap terminal, enter a filename for the pcap you want to create.
