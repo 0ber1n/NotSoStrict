@@ -3,7 +3,7 @@
 # Waits for v_eth0 to exist, then launches Bettercap for SSL stripping PoC
 
 IFACE="v_eth0"
-LOGFILE="sslstrip_post.log"
+LOGFILE="sslstrip_post.pcap"
 TARGET_IP="10.200.200.2"
 
 read -p "Enter log file name (default: sslstrip_post.pcap): " input_log
