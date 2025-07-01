@@ -13,7 +13,7 @@ VETH_NS = "a_eth0"
 HOST_IP = "10.200.200.1"
 NS_IP = "10.200.200.2"
 SUBNET = "10.200.200.0/24"
-BROWSE_URL = "http://neverssl.com"
+BROWSE_URL = "http://neverssl.com" #This default is set as a good initial test, you can browser as needed.
 CHROMIUM_PATH = "/usr/bin/chromium"
 
 def run(cmd, check=True):
