@@ -64,6 +64,18 @@ def launch_bash_script_in_new_terminal(script_name):
         "-e", f"sudo bash -c 'bash \"{script_path}\"; exec bash'"
     ])
 
+def launch_python_script_in_new_terminal(script_name):
+    # Resolve full path of the Python script in the same folder
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.join(script_dir, script_name)
+
+    # Open a new terminal, run the script with sudo, then drop into an interactive shell
+    subprocess.Popen([
+        "x-terminal-emulator", "-e",
+        "bash", "-c",
+        f"sudo python3 \"{script_path}\"; exec bash"
+    ])
+
 def cleanup():
     print("[*] Cleaning up...")
     run(f"ip netns delete {NAMESPACE}", check=False)
@@ -75,7 +87,8 @@ def main():
         enable_nat()
         print("[*] Namespace and NAT are configured.")
         # input("[*] Now run './bettercap_launch.sh' in another terminal and press Enter when Bettercap is running...")
-        launch_bash_script_in_new_terminal("bettercap_launch.sh")
+        #launch_bash_script_in_new_terminal("bettercap_launch.sh")
+        launch_python_script_in_new_terminal("bettercap_launch.py")
         launch_chromium()
         diagnostics()
         input("[*] Press Enter to clean up and exit...")
