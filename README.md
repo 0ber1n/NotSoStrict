@@ -1,33 +1,76 @@
-# NotSoStrict
-
-**This tool is for educational purposes only. Hacking/testing without express consent from the target applcation's owner is illegal even ethical hacking. The owner of this tool is not responsible for anything others do with this. Be good please**
-
-NotSoStrict is a Man-in-the-Middle emulator for SSL Stripping testing. This tool allows the user to create a mock 'victim machine' utilizing namespaces on their machine while also allowing the user to perform a MitM attack between the emulated browser and public facing web apps. The MitM and SSL Stripping tool used in here is bettercap.
-
-### How to Use NotSoStrict
-1. Download and unzip the project to your system>
+## 🛡️ NotSoStrict — HTTPS / HSTS Education Environment
+NotSoStrict is a safe, isolated training environment for demonstrating how insecure HTTP behaves compared to properly configured HTTPS + HSTS (and especially HSTS Preload).
+It is designed for educators, students, researchers, and security learners who want to understand why first-visit HTTPS protection matters.
 ```
-cd NotSoStrict
+⚠️ IMPORTANT:NotSoStrict does NOT authorize testing against external websites.
+Use this tool only on systems and domains you own or have written permission to test.
+```
+### 🙏 Special Thanks
+
+A huge shout-out to: 
+
+  **The Bettercap Team** - for creating one of the most powerful and flexible research tools in the industry.<br>
+  **Moxie Marlinspike** — whose research on sslstrip and downgrade attacks shaped modern transport-layer security discussions.
+  
+Their contributions inspired educational projects like this.
+
+## 🚀 Features
+
+*Runs entirely inside an isolated Linux network namespace<br>
+*Launches a sandboxed Chromium browser for safe testing<br>
+*Demonstrates differences between:<br>
+&nbsp;-HTTP (insecure)<br>
+&nbsp;-HTTPS with HSTS<br>
+&nbsp;-HTTPS with HSTS Preload<br>
+*Optional banner or fullscreen overlay integrity demonstrations<br>
+*Automatic cleanup of namespaces and temporary files<br>
+*Optional .pcap generation for Wireshark analysis
+
+## ⚠️ Legal & Ethical Disclaimer
+```
+This project is for educational use ONLY.
+
+You may use this tool only on systems and domains you own or have
+explicit written permission to test. Unauthorized interception or
+modification of network traffic is illegal and may result in civil or
+criminal penalties.
+
+The author assumes no liability for misuse. Use responsibly and follow
+all applicable laws and ethical guidelines.
+```
+
+## 📦 Installation
+```
 git clone https://github.com/0ber1n/NotSoStrict.git
 cd NotSoStrict
-chmod +x NotSoStrict.py bettercap_launch.py hstsCheck.py
+chmod +x NotSoStrict.py
 ```
-2. Launch the NotSoStrict.py elevated.
+## ▶️ Usage
+Run the tool with elevated privileges:
 ```
 sudo ./NotSoStrict.py
 ```
-3. You will notice a Chromium browser will open up as well as a second terminal that launches the Bettercap portion.
-4. In the Betteracap terminal, enter a filename for the pcap you want to create.
-5. In the chromium browser, navigate to any site that allows an HTTP connection (The goal here is to look for missing HSTS headers, or at least preload).
-6. When you get the evidence needed, exit the script by hitting ctrl + C.
-7. Upload the pcap file created in the directory into WireShark and look for HTTP Streams with the data you need.
-
-## HSTS Checker
-To recon potential endpoints to test, utilize the hstsCheck.py.
-1. Create a file named 'url_file'
-2. Populate the file with urls you want to check. One per line.
-3. Run the script with the filename. Add output if you want it in csv.
+***Optional Flags:***
 ```
-./hstsCheck.py url_file > output.csv
+| Flag                      | Description                                           |
+| ------------------------- | ----------------------------------------------------- |
+| `--mode strip-only`       | Demonstrates basic insecure HTTP downgrade behavior   |
+| `--mode strip-and-break`  | Shows how HSTS Preload prevents connection downgrades |
+| `--defacement banner`     | Displays a small “Pwned by the Strip” banner          |
+| `--defacement fullscreen` | Shows a full-screen integrity warning overlay         |
+| `--logfile name.pcap`     | Saves captured traffic for later analysis             |
+```
+When launched, NotSoStrict will:
+
+1. Open a Chromium browser inside the isolated test network
+
+2. Open a second terminal with Bettercap running inside the namespace
+
+3. Navigate to a domain you own or to a local testing site to observe behavior differences between HTTP and HTTPS/HSTS.
+
+***To end the session, press:***
+```
+Ctrl + C
 ```
 
+The tool will automatically clean up and restore your system networking.
