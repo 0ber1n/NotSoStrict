@@ -49,6 +49,8 @@ chmod +x NotSoStrict.py
 
 *Use the PreflightChecker.py to check if you have all dependencies*
 
+This has only been tested and used on Debian so far.
+
 **Core Packages**<br>
 -Python 3 (standard library only)<br>
 -iproute2 — provides ip for namespaces, veth pairs, routing<br>
