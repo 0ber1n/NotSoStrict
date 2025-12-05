@@ -74,3 +74,48 @@ Ctrl + C
 ```
 
 The tool will automatically clean up and restore your system networking.
+
+## Visual Environment Diagram
+
+                           +------------------------+
+                           |        INTERNET        |
+                           +-----------+------------+
+                                       ^
+                                       |
+                              (NAT, routing, etc)
+                                       |
+                             +---------+----------+
+                             |        HOST        |
+                             |  (your real OS)    |
+                             +---------+----------+
+                                       |
+                            Host veth: v_eth0 (10.200.100.1)
+                                       |
+                          iptables REDIRECT :80/:443 -> 8080
+                                       |
+                           +-----------v------------+
+                           |      Bettercap        |
+                           |   (HTTP proxy 8080)   |
+                           +-----------+-----------+
+                                       |
+                          (acts as gateway / MITM only
+                           for the isolated namespace)
+                                       |
+                ==============================================
+                |        LINUX NETWORK NAMESPACE "victim"     |
+                |                                             |
+                |   +------------------------------+          |
+                |   |        Chromium Browser      |          |
+                |   |     (victim application)     |          |
+                |   +---------------+--------------+          |
+                |                   |                         |
+                |      ns veth: a_eth0 (10.200.100.2)        |
+                |                   |                         |
+                +-------------------+-------------------------+
+
+Key points:
+- The victim namespace has its *own* network stack (interfaces, routes, DNS).
+- Traffic from Chromium → a_eth0 → v_eth0 (host) never touches your normal host apps directly.
+- On the host, iptables redirects only traffic from v_eth0 on TCP/80 (and optionally 443) into Bettercap.
+- The rest of your host networking remains unaffected and isolated from the lab environment.
+
