@@ -45,6 +45,26 @@ git clone https://github.com/0ber1n/NotSoStrict.git
 cd NotSoStrict
 chmod +x NotSoStrict.py
 ```
+### Dependencies
+
+*Use the PreflightChecker.py to check if you have all dependencies*
+
+**Core Packages**<br>
+-Python 3 (standard library only)<br>
+-iproute2 — provides ip for namespaces, veth pairs, routing<br>
+-iptables — used for NAT and port redirection inside the lab<br>
+-Bettercap v2.41.0 or higher — required for proxy + inject functionality<br>
+-Chromium (chromium or chromium-browser) — isolated browser environment<br>
+-xhost — allows the sandboxed Chromium instance to use the host X session<br>
+-A terminal emulator available as x-terminal-emulator<br>
+-sudo/root access — required for namespaces and NAT rules<br>
+
+**Optional (Recommended) Tools**<br>
+-Wireshark — for analyzing .pcap captures<br>
+-curl — for diagnostics inside the namespace<br>
+-iputils-ping — basic connectivity checks<br>
+
+
 ## ▶️ Usage
 Run the tool with elevated privileges:
 ```
